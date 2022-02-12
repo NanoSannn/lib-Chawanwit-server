@@ -24,4 +24,5 @@ const borrowSchema = new Schema({
     returnedDate: Date
 }, { timestamps: true });
 
+// export Product Schema to be usable in other components
 module.exports = mongoose.model("Borrow", borrowSchema);
