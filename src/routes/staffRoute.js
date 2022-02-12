@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const staffController = require('../controllers/staffController');
 
-
+router.get("/",staffController.getStaff);
 
 router.post("/addstaff",staffController.addstaff);
 router.post("/login",staffController.login);

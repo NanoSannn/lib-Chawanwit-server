@@ -1,5 +1,12 @@
 const Staff = require('../models/staffModel');
-
+exports.getStaff = async (req, res) => {
+    Staff.find().exec((err, result) => {
+        res.status(200).json({
+            msg: "OK",
+            data: result
+        });
+    });
+};
 exports.addstaff = async(req , res)=>{
     try {
         let staff = new Staff({

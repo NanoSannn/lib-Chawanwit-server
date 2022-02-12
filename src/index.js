@@ -4,8 +4,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = process.env.PORT || 4002;
 
-const productRoute = require("./routes/productRoute");
-const employeeRoute = require("./routes/employeeRoute");
 const userRoute = require("./routes/userRoute");
 const bookRoute = require("./routes/bookRoute");
 const staffRoute = require('./routes/staffRoute');
@@ -21,8 +19,6 @@ app.use(bodyParser.urlencoded({
 //ดึงค่า config ใน db.js มาใช้ใน app
 require("./db")(app);
 
-app.use("/product", productRoute);
-app.use("/employee", employeeRoute);
 app.use("/user", userRoute);
 app.use("/book", bookRoute);
 app.use("/staff", staffRoute);
