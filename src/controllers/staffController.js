@@ -39,13 +39,10 @@ exports.login = async (req,res) => {
         staff_id: req.body.staff_id,
         password: req.body.password
     }
-    // console.log(login)
     try {
         let staff = await Staff.findOne({
             staff_id: login.staff_id
         });
-        // console.log(user);
-        //check if user exit
         if (!staff) {
             res.status(400).json({
                 type: "Not Found",
@@ -85,8 +82,6 @@ exports.login = async (req,res) => {
 }
 
 exports.updateStaff = async (req,res)=>{
-    // req.params.id = id ของ staff 
-    // req.body = ข้อมูล staff ที่จะ update
     let staff = {
         name: req.body.name,
         address: req.body.address,
@@ -94,10 +89,8 @@ exports.updateStaff = async (req,res)=>{
     };
     Staff.findByIdAndUpdate(req.params.id,staff)
     .exec((err,data)=>{
-        // findById อีกรอบเพื่อเอา data ใหม่
         Staff.findById(req.params.id,{"password":0})
         .exec((err,data)=>{
-            // data.password = null;
             res.status(200).json({
                 msg: "OK",
                 data: data
