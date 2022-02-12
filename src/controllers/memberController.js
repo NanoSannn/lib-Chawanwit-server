@@ -1,8 +1,8 @@
-const Staff = require('../models/staffModel');
+const Member = require('../models/memberModel');
 
-exports.getStaffs = async (req, res) => {
+exports.getMembers = async (req, res) => {
 
-    Staff.find()
+    Member.find()
         .exec((err, result) => {
             res.status(200).json({
                 msg: "OK",
@@ -11,8 +11,9 @@ exports.getStaffs = async (req, res) => {
         });
 };
 
-exports.getStaffById = async (req, res) => {
-    Staff.findById(req.params.id)
+exports.getMemberById = async (req, res) => {
+
+    Member.findById(req.params.id)
         .exec((err, result) => {
             res.status(200).json({
                 msg: "OK",
@@ -21,8 +22,9 @@ exports.getStaffById = async (req, res) => {
         });
 };
 
-exports.getStaffByStaffId = async (req, res) => {
-    Staff.find({staffId:req.params.id})
+exports.getMemberByMemberId = async (req, res) => {
+
+    Member.find({memberId:req.params.id})
         .exec((err, result) => {
             res.status(200).json({
                 msg: "OK",
@@ -31,25 +33,27 @@ exports.getStaffByStaffId = async (req, res) => {
         });
 };
 
-exports.addStaff = async (req,res) =>{
+exports.addMember = async (req,res) =>{
 
     try {
 
-        let staff = new Staff({
+        let member = new Member({
 
-            staffId: req.body.staffId,
+            memberId: req.body.memberId,
             name: req.body.name,
+            studyGroup: req.body.studyGroup,
             address: req.body.address,
-            tel: req.body.tel
+            tel: req.body.tel,
+            categoryId: req.body.categoryId
         });
 
-        staff.password = await staff.hashPassword(req.body.password);
+        member.password = await member.hashPassword(req.body.password);
 
-        let createStaff = await staff.save();
+        let createMember = await member.save();
 
         res.status(200).json({
             msg: "Add Member OK",
-            data: createStaff
+            data: createMember
         });
 
         
@@ -66,37 +70,37 @@ exports.addStaff = async (req,res) =>{
 
 exports.login = async (req,res) => {
     const login = {
-        staffId: req.body.staffId,
+        memberId: req.body.memberId,
         password: req.body.password
     }
     // console.log(login)
     try {
-        let staff = await Staff.findOne({
-            staffId: login.staffId
+        let member = await Member.findOne({
+            memberId: login.memberId
         });
         // console.log(user);
         //check if user exit
-        if (!staff) {
+        if (!member) {
             res.status(400).json({
                 type: "Not Found",
                 msg: "Wrong Login Details"
             })
         }
 
-        let match = await staff.compareUserPassword(login.password, staff.password);
+        let match = await member.compareUserPassword(login.password, member.password);
         if (match) {
-            let token = await staff.generateJwtToken({
+            let token = await member.generateJwtToken({
                 staff
             }, "secret", {
                 expiresIn: 604800
             })
 
             if (token) {
-                staff.password = null;
+                member.password = null;
                 res.status(200).json({
                     success: true,
                     token: token,
-                    userCredentials: staff
+                    userCredentials: member
                 })
             }
         } else {
@@ -114,15 +118,17 @@ exports.login = async (req,res) => {
     }
 }
 
-exports.updateStaff = async (req,res)=>{
-    let staff = {
-        name: req.body.name,
-        address: req.body.address,
-        tel: req.body.tel
+exports.updateMember = async (req,res)=>{
+    let member = {
+            name: req.body.name,
+            studyGroup: req.body.studyGroup,
+            address: req.body.address,
+            tel: req.body.tel,
+            categoryId: req.body.categoryId
     };
-    Staff.findByIdAndUpdate(req.params.id,staff)
+    Member.findByIdAndUpdate(req.params.id,member)
     .exec((err,data)=>{
-        Staff.findById(req.params.id,{"password":0})
+        Member.findById(req.params.id,{"password":0})
         .exec((err,data)=>{
             res.status(200).json({
                 msg: "OK",
@@ -132,8 +138,8 @@ exports.updateStaff = async (req,res)=>{
     });
 };
 
-exports.deleteStaff = async (req, res) => {
-    Staff.findByIdAndDelete(req.params.id)        //find product by id, then delete
+exports.deleteMember = async (req, res) => {
+    Member.findByIdAndDelete(req.params.id)        //find product by id, then delete
         .exec((err)=>{
             if(err){
                 res.status(500).json({

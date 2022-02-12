@@ -2,47 +2,40 @@ const mongoose = require("mongoose");
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const memberSchema = new Schema({
 
-    //_id:"edfmlweflwifmwlfmwlkfmw"
-    member_id:{
+    // _id: "saojposajp65646g4va54fa"
+    memberId:{
         type:String,
-        required : true,
+        required:true,
         unique:true,
-    },
-    name:{
-        type:String,
-        required:true
     },
     password:{
         type:String,
         required:true
     },
-    group:{
+    name:{
         type:String,
+        required:true
+    },
+    studyGroup:{
+        type:Number,
         required:true
     },
     address:{
+       type:String,
+       required:true
+    },
+    tel:{
         type:String,
         required:true
     },
-    phoneNumber:{
+    categoryId:{
         type:String,
         required:true
-    },
-    type:{
-        type_name:{
-            type:String,
-            required:true
-        },
-        day_borrow:{
-            type:Number,
-            required:true
-        }
     }
-
 
 },{
     timestamps:true
@@ -57,7 +50,9 @@ memberSchema.methods.compareUserPassword = async (inputtedPassword, hashedPasswo
 memberSchema.methods.generateJwtToken = async (payload, secret, expires) => {
     return jwt.sign(payload, secret, expires)
 }
+
 module.exports = mongoose.model("Member", memberSchema);
 memberSchema.plugin(uniqueValidator, {
     message: '{PATH} Already in use'
 });
+

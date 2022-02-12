@@ -3,25 +3,25 @@ const Schema = mongoose.Schema;
 
 const borrowSchema = new Schema({
     borrower: {
-        member_id: String,
+        memberId: String,
         name: String
     },
     book: {
-        book_id: String,
+        bookId: String,
         name: String,
         author: String
     },
     borrowDate: { type: Date, default: Date.now },
     dueDate: Date,
     lender: {
-        staff_id: String,
+        staffId: String,
         name: String
     },
     receiver:{
-        staff_id: String,
+        staffId: String,
         name: String
     },
-    returnedDate: Date
+    returnDate: Date
 }, { timestamps: true });
 
 // export Product Schema to be usable in other components

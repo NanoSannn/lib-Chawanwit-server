@@ -5,27 +5,29 @@ const jwt = require('jsonwebtoken');
 const Schema = mongoose.Schema;
 
 const staffSchema = new Schema({
-    staff_id:{
+
+    staffId:{
         type:String,
-        required : true,
+        required:true,
         unique:true,
-    },
-    name:{
-        type:String,
-        required : true,
     },
     password:{
         type:String,
         required:true
     },
-    address:{
+    name:{
         type:String,
         required:true
     },
-    phoneNumber:{
+    address:{
+       type:String,
+       required:true
+    },
+    tel:{
         type:String,
         required:true
     }
+
 },{
     timestamps:true
 });
@@ -39,7 +41,9 @@ staffSchema.methods.compareUserPassword = async (inputtedPassword, hashedPasswor
 staffSchema.methods.generateJwtToken = async (payload, secret, expires) => {
     return jwt.sign(payload, secret, expires)
 }
+
 module.exports = mongoose.model("Staff", staffSchema);
 staffSchema.plugin(uniqueValidator, {
     message: '{PATH} Already in use'
 });
+
