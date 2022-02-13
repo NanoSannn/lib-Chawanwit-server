@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const staffSchema = new Schema({
 
-    staffId:{
+    staff_id:{
         type:String,
         required:true,
         unique:true,
@@ -23,7 +23,7 @@ const staffSchema = new Schema({
        type:String,
        required:true
     },
-    tel:{
+    phoneNumber:{
         type:String,
         required:true
     }

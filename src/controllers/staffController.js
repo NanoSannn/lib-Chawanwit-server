@@ -1,6 +1,6 @@
 const Staff = require('../models/staffModel');
 
-exports.getStaffs = async (req, res) => {
+exports.getStaff = async (req, res) => {
 
     Staff.find()
         .exec((err, result) => {
@@ -12,17 +12,7 @@ exports.getStaffs = async (req, res) => {
 };
 
 exports.getStaffById = async (req, res) => {
-    Staff.findById(req.params.id)
-        .exec((err, result) => {
-            res.status(200).json({
-                msg: "OK",
-                data: result
-            });
-        });
-};
-
-exports.getStaffByStaffId = async (req, res) => {
-    Staff.find({staffId:req.params.id})
+    Staff.find({staff_id:req.params.id})
         .exec((err, result) => {
             res.status(200).json({
                 msg: "OK",
@@ -37,10 +27,10 @@ exports.addStaff = async (req,res) =>{
 
         let staff = new Staff({
 
-            staffId: req.body.staffId,
+            staff_id: req.body.staff_id,
             name: req.body.name,
             address: req.body.address,
-            tel: req.body.tel
+            phoneNumber: req.body.phoneNumber
         });
 
         staff.password = await staff.hashPassword(req.body.password);
@@ -66,13 +56,13 @@ exports.addStaff = async (req,res) =>{
 
 exports.login = async (req,res) => {
     const login = {
-        staffId: req.body.staffId,
+        staff_id: req.body.staff_id,
         password: req.body.password
     }
     // console.log(login)
     try {
         let staff = await Staff.findOne({
-            staffId: login.staffId
+            staff_id: login.staff_id
         });
         // console.log(user);
         //check if user exit
@@ -118,7 +108,7 @@ exports.updateStaff = async (req,res)=>{
     let staff = {
         name: req.body.name,
         address: req.body.address,
-        tel: req.body.tel
+        phoneNumber: req.body.phoneNumber
     };
     Staff.findByIdAndUpdate(req.params.id,staff)
     .exec((err,data)=>{

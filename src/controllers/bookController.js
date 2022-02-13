@@ -1,6 +1,6 @@
 const Book = require('../models/bookModel');
 
-exports.getBooks = async (req, res) => {
+exports.getBook = async (req, res) => {
 
     Book.find()
         .exec((err, result) => {
@@ -42,14 +42,11 @@ exports.addBook = async (req,res) =>{
 
         let book = new Book({
 
-            bookId: req.body.bookId,
+            book_id: req.body.book_id,
             name: req.body.name,
             author: req.body.author,
             publicher: req.body.publicher,
             price: req.body.price,
-            stdCanBorrow: req.body.stdCanBorrow,
-            tecCanBorrow: req.body.tecCanBorrow,
-            status: "ว่าง",
         });
         let createBook = await book.save();
 
@@ -70,14 +67,12 @@ exports.addBook = async (req,res) =>{
 
 }
 
-exports.updateBook = async (req,res)=>{
+exports.editBook = async (req,res)=>{
     let book = {
         name: req.body.name,
         author: req.body.author,
         publicher: req.body.publicher,
         price: req.body.price,
-        stdCanBorrow: req.body.stdCanBorrow,
-        tecCanBorrow: req.body.tecCanBorrow
     };
     Book.findByIdAndUpdate(req.params.id,book)
     .exec((err,data)=>{

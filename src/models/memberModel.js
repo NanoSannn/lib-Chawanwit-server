@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 const memberSchema = new Schema({
 
     // _id: "saojposajp65646g4va54fa"
-    memberId:{
+    member_id:{
         type:String,
         required:true,
         unique:true,
@@ -20,15 +20,11 @@ const memberSchema = new Schema({
         type:String,
         required:true
     },
-    studyGroup:{
-        type:Number,
-        required:true
-    },
     address:{
        type:String,
        required:true
     },
-    tel:{
+    phoneNumber:{
         type:String,
         required:true
     },

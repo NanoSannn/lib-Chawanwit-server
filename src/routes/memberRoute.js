@@ -5,9 +5,8 @@ const auth = require('../middleware/auth');
 
 router.get("",memberController.getMembers);
 router.get("/:id",memberController.getMemberById);
-router.get("/memberId/:id",memberController.getMemberByMemberId);
 
-router.post("/add",auth,memberController.addMember);
+router.post("/addmember",auth,memberController.addMember);
 router.post("/login",auth,memberController.login);
 
 router.put("/:id",auth,memberController.updateMember);

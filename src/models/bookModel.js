@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const bookSchema = new Schema({
 
     // _id: "saojposajp65646g4va54fa"
-    bookId:{
+    book_id:{
         type:String,
         required:true,
         unique:true,
@@ -26,18 +26,6 @@ const bookSchema = new Schema({
         type:Number,
         required:true
     },
-    stdCanBorrow:{
-        type:Number,
-        required:true
-    },
-    tecCanBorrow:{
-        type:Number,
-        required:true
-    },
-    status:{
-        type:String,
-        required:true
-    }
 
 },{
     timestamps:true

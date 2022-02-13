@@ -13,18 +13,7 @@ exports.getMembers = async (req, res) => {
 
 exports.getMemberById = async (req, res) => {
 
-    Member.findById(req.params.id)
-        .exec((err, result) => {
-            res.status(200).json({
-                msg: "OK",
-                data: result
-            });
-        });
-};
-
-exports.getMemberByMemberId = async (req, res) => {
-
-    Member.find({memberId:req.params.id})
+    Member.find({member_id:req.params.id})
         .exec((err, result) => {
             res.status(200).json({
                 msg: "OK",
@@ -39,11 +28,10 @@ exports.addMember = async (req,res) =>{
 
         let member = new Member({
 
-            memberId: req.body.memberId,
+            member_id: req.body.member_id,
             name: req.body.name,
-            studyGroup: req.body.studyGroup,
             address: req.body.address,
-            tel: req.body.tel,
+            phoneNumber: req.body.phoneNumber,
             categoryId: req.body.categoryId
         });
 
@@ -70,16 +58,13 @@ exports.addMember = async (req,res) =>{
 
 exports.login = async (req,res) => {
     const login = {
-        memberId: req.body.memberId,
+        member_id: req.body.member_id,
         password: req.body.password
     }
-    // console.log(login)
     try {
         let member = await Member.findOne({
-            memberId: login.memberId
+            member_id: login.member_id
         });
-        // console.log(user);
-        //check if user exit
         if (!member) {
             res.status(400).json({
                 type: "Not Found",
@@ -121,9 +106,8 @@ exports.login = async (req,res) => {
 exports.updateMember = async (req,res)=>{
     let member = {
             name: req.body.name,
-            studyGroup: req.body.studyGroup,
             address: req.body.address,
-            tel: req.body.tel,
+            phoneNumber: req.body.phoneNumber,
             categoryId: req.body.categoryId
     };
     Member.findByIdAndUpdate(req.params.id,member)
@@ -139,7 +123,7 @@ exports.updateMember = async (req,res)=>{
 };
 
 exports.deleteMember = async (req, res) => {
-    Member.findByIdAndDelete(req.params.id)        //find product by id, then delete
+    Member.findByIdAndDelete(req.params.id)
         .exec((err)=>{
             if(err){
                 res.status(500).json({
